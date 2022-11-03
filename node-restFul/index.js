@@ -45,8 +45,8 @@ server.listen(3699,'127.0.0.1', () => {
  let consign = require('consign');
  let app = express();
 
- app.use(express.urlencoded({ extended: true}))
- app.use(express.json())
+ app.use(express.urlencoded({ extended: true, limit: '50mb'}))
+ app.use(express.json({limit: '50mb'}))
  
  consign().include('routes').include('utils').into(app)
 
