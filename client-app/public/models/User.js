@@ -70,16 +70,15 @@ class User {
                 break;
                 default:
                     if (name.substring(0,1) === '_') this[name] = json[name];
-
             }
-            
-
         }
 
     }
 
     static getUsersStorage() {
-        return HttpRequest.get('/users');
+/*   HTTPREQUEST      return HttpRequest.get('/users'); */
+/*   FETCH  */     
+    return Fetch.get('/users');
 /*     let users = [];
     if (localStorage.getItem("users")) {
         users = JSON.parse(localStorage.getItem("users"));
@@ -119,11 +118,12 @@ class User {
     save(){
         return new Promise((resolve, reject) => {
             let promise;
-    
+    /*   HTTPREQUEST  
+   FETCH  */  
             if (this.id){
-                promise = HttpRequest.put(`/users/${this.id}`, this.toJSON());
+                promise = Fetch.put(`/users/${this.id}`, this.toJSON());
             } else {
-                promise = HttpRequest.post(`/users/`, this.toJSON());
+                promise = Fetch.post(`/users/`, this.toJSON());
             }
     
             promise.then(data => {
@@ -165,7 +165,9 @@ class User {
     }
 
     remove(){
-       return HttpRequest.delete(`/users/${this.id}`)
+        /*   HTTPREQUEST      return HttpRequest.get('/users'); */
+/*   FETCH  */  
+       return Fetch.delete(`/users/${this.id}`)
 
 /*     let users = User.getUsersStorage();
     users.forEach((userData, index)=>{
