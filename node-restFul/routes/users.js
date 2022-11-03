@@ -2,7 +2,7 @@
 /* let express = require('express');
 let routes = express.Router() */
 
-let api = '/users/'
+let api = '/users'
 
 let NeDB = require('nedb');
 let db = new NeDB({
@@ -27,7 +27,7 @@ let db = new NeDB({
     
     });
 
-    app.get( `${api}:id` ,(req, res) => {
+    app.get( `${api}/:id` ,(req, res) => {
         db.findOne({_id:req.params.id}).exec((err, user) => {
             if(err) {
                 app.utils.error.send(err, req, res);
@@ -41,27 +41,29 @@ let db = new NeDB({
     const { check } = require('express-validator');
 
     app.post( `${api}`,
-              check ('name').notEmpty().withMessage('Nome é obrigatorio!'),
-              check('email').isEmail().withMessage('Email invalido!'),
+              check('_name').notEmpty().withMessage('Nome é obrigatorio!'),
+              check('_email').isEmail().withMessage('Email invalido!'),
               (req, res) => {/* 
         res.statusCode = 200;
         res.setHeader('Content-type', 'application/json'); */
 
-        /*   res.json(req.body); */
+        /*   res.json(req.body); */        
+        if(!app.utils.validator.user(app, req, res)) return false  
 
-        if(!app.utils.validator.user(app, req, res)) return false
         db.insert(req.body, (err, user) => {
             if(err) {
+    
                 app.utils.error.send(err, req, res);
             } else {
+              
                 res.status(200).json(user)
             }
         })
     });
 
-    app.put( `${api}:id`,
-              check ('name').notEmpty().withMessage('Nome é obrigatorio!'),
-              check('email').isEmail().withMessage('Email invalido!'),
+    app.put( `${api}/:id`,
+              check ('_name').notEmpty().withMessage('Nome é obrigatorio!'),
+              check('_email').isEmail().withMessage('Email invalido!'),
               (req, res) => {
 
        if(!app.utils.validator.user(app, req, res)) return false
@@ -76,7 +78,7 @@ let db = new NeDB({
         });
     });
 
-    app.delete( `${api}:id` ,(req, res) => {
+    app.delete( `${api}/:id` ,(req, res) => {
         db.remove({_id:req.params.id}, req.body, err => {
             if(err) {
                 app.utils.error.send(err, req, res);

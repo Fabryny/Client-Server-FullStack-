@@ -9,3 +9,7 @@ Ferramentas utilizadas:</br>
  ✔ NeDB para persistência no Banco de Dados.</br>
  ✔ EXPRESS-VALIDATOR para validar os dados nas requisições.</br>
  ✔ NODEMON para atualizar serviço em tempor real</br>
+
+
+
+node index
